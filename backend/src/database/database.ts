@@ -1,7 +1,15 @@
+import { Lecture } from '../types/lecture';
+import fs from 'fs';
 import path from 'path';
 import sqlite3 from 'sqlite3';
 
-const dbPath = path.join(__dirname, '../../data/lectures.db');
+// Ensure data folder exists
+const dataDir = path.resolve(__dirname, '../../data');
+if (!fs.existsSync(dataDir)) {
+  fs.mkdirSync(dataDir, { recursive: true });
+}
+
+const dbPath = path.join(dataDir, 'lectures.db');
 
 // Enable verbose mode for debugging
 sqlite3.verbose();
@@ -10,11 +18,11 @@ class Database {
   private db: sqlite3.Database;
 
   constructor() {
-    this.db = new sqlite3.Database(dbPath, (err:Error | null) => {
+    this.db = new sqlite3.Database(dbPath, (err: Error | null) => {
       if (err) {
         console.error('Error opening database:', err.message);
       } else {
-        console.log('Connected to SQLite database');
+        console.log('✅ Connected to SQLite database');
         this.initializeDatabase();
       }
     });
@@ -35,17 +43,17 @@ class Database {
         location TEXT,
         maxStudents INTEGER,
         enrolledStudents INTEGER DEFAULT 0,
-        materials TEXT, -- JSON string for materials array
+        materials TEXT,
         createdAt TEXT NOT NULL,
         updatedAt TEXT NOT NULL
-      )
+      );
     `;
 
-    this.db.run(createLecturesTable, (err:Error | null) => {
+    this.db.run(createLecturesTable, (err: Error | null) => {
       if (err) {
-        console.error('Error creating lectures table:', err.message);
+        console.error('❌ Error creating lectures table:', err.message);
       } else {
-        console.log('Lectures table initialized');
+        console.log('📚 Lectures table initialized');
         this.seedSampleData();
       }
     });
@@ -53,106 +61,48 @@ class Database {
 
   private seedSampleData() {
     const checkQuery = 'SELECT COUNT(*) as count FROM lectures';
-    
-    this.db.get(checkQuery, (err:Error | null, row: any) => {
+
+    this.db.get(checkQuery, (err: Error | null, row: any) => {
       if (err) {
-        console.error('Error checking data:', err.message);
+        console.error('❌ Error checking data:', err.message);
         return;
       }
 
       if (row.count === 0) {
-        console.log('Seeding sample data...');
-        const sampleLectures = [
+        console.log('🌱 Seeding sample data...');
+        const sampleLectures :Lecture[]= [
           {
             id: '1',
             title: 'Introduction to React Hooks',
             instructor: 'Dr. Sarah Johnson',
-            description: 'Learn the fundamentals of React Hooks and how they revolutionize functional components.',
-            fullDescription: 'This comprehensive lecture covers useState, useEffect, useContext, and custom hooks. We\'ll build practical examples and explore best practices for modern React development.',
+            description: 'Learn the fundamentals of React Hooks and how to manage state effectively.',
+            fullDescription: 'This comprehensive lecture will cover useState, useEffect, useContext, and custom hooks in detail.',
             startTime: '09:00',
             endTime: '10:30',
-            date: '2025-01-15',
+            date: '2025-07-30',
             category: 'computer-science',
-            location: 'Room 201, CS Building',
-            maxStudents: 45,
-            enrolledStudents: 32,
-            materials: JSON.stringify([
+            materials: [
               {
-                id: '1',
+                id: 'mat-1',
                 name: 'React Hooks Guide.pdf',
                 type: 'pdf',
-                url: 'https://example.com/react-hooks-guide.pdf'
-              },
-              {
-                id: '2',
-                name: 'Code Examples',
-                type: 'link',
-                url: 'https://github.com/example/react-hooks-examples'
+                url: 'https://example.com/hooks-guide.pdf'
               }
-            ]),
+            ],
+            location: 'Room 101',
+            maxStudents: 50,
+            enrolledStudents: 30,
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString()
           },
-          {
-            id: '2',
-            title: 'Advanced Calculus: Integration Techniques',
-            instructor: 'Prof. Michael Chen',
-            description: 'Master advanced integration methods including integration by parts, partial fractions, and trigonometric substitution.',
-            fullDescription: 'This advanced mathematics lecture focuses on complex integration techniques used in engineering and physics applications. Students will solve challenging problems and learn when to apply each method.',
-            startTime: '14:00',
-            endTime: '15:30',
-            date: '2025-01-16',
-            category: 'mathematics',
-            location: 'Mathematics Hall 101',
-            maxStudents: 60,
-            enrolledStudents: 48,
-            materials: JSON.stringify([
-              {
-                id: '3',
-                name: 'Integration Techniques Handbook',
-                type: 'pdf',
-                url: 'https://example.com/integration-handbook.pdf'
-              }
-            ]),
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-          },
-          {
-            id: '3',
-            title: 'Quantum Mechanics Fundamentals',
-            instructor: 'Dr. Emily Rodriguez',
-            description: 'Explore the fascinating world of quantum mechanics, covering wave-particle duality and the uncertainty principle.',
-            fullDescription: 'Introduction to quantum mechanics for physics majors. Topics include the Schrödinger equation, quantum states, observables, and measurement theory. Mathematical prerequisites include linear algebra and differential equations.',
-            startTime: '11:00',
-            endTime: '12:30',
-            date: '2025-01-17',
-            category: 'physics',
-            location: 'Physics Laboratory A',
-            maxStudents: 35,
-            enrolledStudents: 28,
-            materials: JSON.stringify([
-              {
-                id: '4',
-                name: 'Quantum Mechanics Lecture Notes',
-                type: 'pdf',
-                url: 'https://example.com/quantum-notes.pdf'
-              },
-              {
-                id: '5',
-                name: 'Virtual Lab Simulation',
-                type: 'link',
-                url: 'https://quantumlab.example.com'
-              }
-            ]),
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-          }
+          // Add more lectures...
         ];
+         
 
         const insertQuery = `
           INSERT INTO lectures (
-            id, title, instructor, description, fullDescription, startTime, endTime, 
-            date, category, location, maxStudents, enrolledStudents, materials, 
+            id, title, instructor, description, fullDescription, startTime, endTime,
+            date, category, location, maxStudents, enrolledStudents, materials,
             createdAt, updatedAt
           ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
@@ -174,31 +124,31 @@ class Database {
             lecture.materials,
             lecture.createdAt,
             lecture.updatedAt
-          ], (err:Error | null) => {
+          ], (err: Error | null) => {
             if (err) {
-              console.error('Error inserting sample data:', err.message);
+              console.error('❌ Error inserting sample data:', err.message);
             }
           });
         });
 
-        console.log('Sample data seeded successfully');
+        console.log('✅ Sample data seeded');
       }
     });
   }
 
-  getDatabase(): sqlite3.Database {
+  public getDatabase(): sqlite3.Database {
     return this.db;
   }
 
-  close(): void {
-    this.db.close((err:Error | null) => {
+  public close(): void {
+    this.db.close((err: Error | null) => {
       if (err) {
-        console.error('Error closing database:', err.message);
+        console.error('❌ Error closing database:', err.message);
       } else {
-        console.log('Database connection closed');
+        console.log('🔌 Database connection closed');
       }
     });
   }
 }
 
-export default Database;
+export default new Database(); // Export an instance

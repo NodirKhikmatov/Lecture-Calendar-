@@ -1,14 +1,17 @@
-import express from 'express';
 import cors from 'cors';
-import path from 'path';
+import express from 'express';
+// Create data directory if it doesn't exist
+import fs from 'fs';
 import lectureRoutes from './routes/lectureRoutes';
+import otherRoutes from './routes/otherRoutes';
+import path from 'path';
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3002;
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000'], // Allow both Vite and CRA defaults
+  origin: ['http://localhost:5173', 'http://localhost:3002'], // Allow both Vite and CRA defaults
   credentials: true
 }));
 
@@ -23,6 +26,8 @@ app.use((req, res, next) => {
 
 // API Routes
 app.use('/api/lectures', lectureRoutes);
+app.use('/api/other', otherRoutes);
+
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -43,12 +48,10 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 });
 
 // 404 handler for API routes
-app.use('/api/*', (req, res) => {
+app.use('/api/', (req, res) => {
   res.status(404).json({ error: 'API endpoint not found' });
 });
 
-// Create data directory if it doesn't exist
-import fs from 'fs';
 const dataDir = path.join(__dirname, '../data');
 if (!fs.existsSync(dataDir)) {
   fs.mkdirSync(dataDir, { recursive: true });

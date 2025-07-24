@@ -1,11 +1,10 @@
 import { CreateLectureRequest, Lecture, UpdateLectureRequest } from '../types/lecture';
 import { Request, Response } from 'express';
 
-import Database from '../database/database';
+import dbInstance from '../database/database';
 import { v4 as uuidv4 } from 'uuid';
 
-const database = new Database();
-const db = database.getDatabase();
+const db = dbInstance.getDatabase();
 
 export class LectureController {
   // Get all lectures
@@ -31,7 +30,11 @@ export class LectureController {
 
       const lectures: Lecture[] = rows.map(row => ({
         ...row,
-        materials: row.materials ? JSON.parse(row.materials) : []
+        materials: typeof row.materials === 'string'
+        ? JSON.parse(row.materials)
+        : Array.isArray(row.materials)
+          ? row.materials
+          : []
       }));
 
       res.json(lectures);
