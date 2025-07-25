@@ -39,7 +39,7 @@ A modern, full-stack web application for managing and viewing lecture schedules 
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/lecture-calendar.git
+   git clone https://github.com/NodirKhikmatov/Lecture-Calendar-.git
    cd lecture-calendar
    ```
 
@@ -176,6 +176,7 @@ The application follows Google Calendar's design principles:
 npm run full:build
 
 # Start production server
+npm run dev
 npm run backend:start
 ```
 
@@ -185,7 +186,7 @@ Create `.env` files for different environments:
 **Backend (.env)**
 ```
 NODE_ENV=production
-PORT=3001
+PORT=3002
 DATABASE_PATH=./data/lectures.db
 ```
 
@@ -194,17 +195,6 @@ DATABASE_PATH=./data/lectures.db
 VITE_API_BASE_URL=http://your-api-domain.com/api
 ```
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
@@ -213,12 +203,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Google Calendar](https://calendar.google.com/) for design inspiration
 - React and Express communities for amazing documentation
 
-## 📧 Contact
-
-Your Name - [your.email@example.com](mailto:your.email@example.com)
-
-Project Link: [https://github.com/yourusername/lecture-calendar](https://github.com/yourusername/lecture-calendar)
-
----
-
-Made with ❤️ for education and learning
