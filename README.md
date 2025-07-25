@@ -62,7 +62,7 @@ A modern, full-stack web application for managing and viewing lecture schedules 
 
    Or start them separately:
    ```bash
-   # Terminal 1 - Backend (Port 3001)
+   # Terminal 1 - Backend (Port 3002)
    npm run backend:dev
    
    # Terminal 2 - Frontend (Port 5173)
@@ -71,8 +71,8 @@ A modern, full-stack web application for managing and viewing lecture schedules 
 
 4. **Open your browser**
    - Frontend: http://localhost:5173
-   - Backend API: http://localhost:3001/api
-   - Health Check: http://localhost:3001/api/health
+   - Backend API: http://localhost:3002/api
+   - Health Check: http://localhost:3002/api/health
 
 ## 📁 Project Structure
 

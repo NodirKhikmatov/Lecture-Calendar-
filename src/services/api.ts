@@ -1,7 +1,8 @@
-import axios from 'axios';
-import { Lecture, CreateLectureRequest, UpdateLectureRequest } from '../types/lecture';
+import { CreateLectureRequest, Lecture, UpdateLectureRequest } from '../types/lecture';
 
-const API_BASE_URL = 'http://localhost:3001/api';
+import axios from 'axios';
+
+const API_BASE_URL = 'http://localhost:3002/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,

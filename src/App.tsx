@@ -1,8 +1,10 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import './App.css';
+
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+
 import Calendar from './components/Calendar/Calendar';
 import LectureDetail from './components/LectureDetail/LectureDetail';
-import './App.css';
+import React from 'react';
 
 function App() {
   return (

@@ -70,33 +70,7 @@ class Database {
 
       if (row.count === 0) {
         console.log('🌱 Seeding sample data...');
-        const sampleLectures :Lecture[]= [
-          {
-            id: '1',
-            title: 'Introduction to React Hooks',
-            instructor: 'Dr. Sarah Johnson',
-            description: 'Learn the fundamentals of React Hooks and how to manage state effectively.',
-            fullDescription: 'This comprehensive lecture will cover useState, useEffect, useContext, and custom hooks in detail.',
-            startTime: '09:00',
-            endTime: '10:30',
-            date: '2025-07-30',
-            category: 'computer-science',
-            materials: [
-              {
-                id: 'mat-1',
-                name: 'React Hooks Guide.pdf',
-                type: 'pdf',
-                url: 'https://example.com/hooks-guide.pdf'
-              }
-            ],
-            location: 'Room 101',
-            maxStudents: 50,
-            enrolledStudents: 30,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-          },
-          // Add more lectures...
-        ];
+        const sampleLectures :Lecture[]= [];
          
 
         const insertQuery = `

@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { X, Clock, User, MapPin, Users, BookOpen } from 'lucide-react';
-import { Lecture, CreateLectureRequest } from '../../types/lecture';
 import './LectureModal.css';
+
+import { BookOpen, Clock, MapPin, User, Users, X } from 'lucide-react';
+import { CreateLectureRequest, Lecture } from '../../types/lecture';
+import React, { useEffect, useState } from 'react';
 
 interface LectureModalProps {
   isOpen: boolean;
@@ -307,7 +308,7 @@ const LectureModal: React.FC<LectureModalProps> = ({
             )}
             <div className="action-buttons">
               <button type="button" className="btn-secondary" onClick={onClose}>
-                Cancel
+            Cancel    
               </button>
               <button type="submit" className="btn-primary">
                 {lecture ? 'Update Lecture' : 'Create Lecture'}

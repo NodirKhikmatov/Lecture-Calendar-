@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Clock, User, MapPin, Users, BookOpen, Calendar, Edit, Trash2 } from 'lucide-react';
+import './LectureDetail.css';
+
+import { ArrowLeft, BookOpen, Calendar, Clock, Edit, MapPin, Trash2, User, Users } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+
 import { Lecture } from '../../types/lecture';
+import LectureModal from '../LectureModal/LectureModal';
 import { lectureApi } from '../../services/api';
 import { useLectures } from '../../hooks/useLectures';
-import LectureModal from '../LectureModal/LectureModal';
-import './LectureDetail.css';
 
 const LectureDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();

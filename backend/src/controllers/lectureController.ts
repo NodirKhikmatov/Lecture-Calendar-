@@ -27,16 +27,28 @@ export class LectureController {
         res.status(500).json({ error: 'Failed to fetch lectures' });
         return;
       }
+      
+      const safeJsonParse = (value: string): any[] => {
+        try {
+          const parsed = JSON.parse(value);
+          return Array.isArray(parsed) ? parsed : [];
+        } catch {
+          console.warn('Failed to parse materials JSON:', value);
+          return [];
+        }
+      };
+
 
       const lectures: Lecture[] = rows.map(row => ({
         ...row,
-        materials: typeof row.materials === 'string'
-        ? JSON.parse(row.materials)
-        : Array.isArray(row.materials)
-          ? row.materials
-          : []
+        materials:
+          typeof row.materials === 'string'
+            ? safeJsonParse(row.materials)
+            : Array.isArray(row.materials)
+              ? row.materials
+              : []
       }));
-
+      
       res.json(lectures);
     });
   }
@@ -59,10 +71,15 @@ export class LectureController {
 
       const lecture: Lecture = {
         ...row,
-        materials: row.materials ? JSON.parse(row.materials) : []
+        materials: typeof row.materials === 'string'
+        ? JSON.parse(row.materials)
+        : Array.isArray(row.materials)
+          ? row.materials
+          : []
       };
 
       res.json(lecture);
+
     });
   }
 

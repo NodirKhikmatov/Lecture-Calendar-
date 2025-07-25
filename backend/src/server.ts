@@ -3,7 +3,6 @@ import express from 'express';
 // Create data directory if it doesn't exist
 import fs from 'fs';
 import lectureRoutes from './routes/lectureRoutes';
-import otherRoutes from './routes/otherRoutes';
 import path from 'path';
 
 const app = express();
@@ -26,7 +25,6 @@ app.use((req, res, next) => {
 
 // API Routes
 app.use('/api/lectures', lectureRoutes);
-app.use('/api/other', otherRoutes);
 
 
 // Health check endpoint

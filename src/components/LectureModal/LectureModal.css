@@ -132,13 +132,13 @@
 .action-buttons {
   display: flex;
   gap: 12px;
+
 }
 
 .btn-primary,
 .btn-secondary,
 .btn-danger {
   padding: 10px 24px;
-  border-radius: 4px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
